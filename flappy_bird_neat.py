@@ -350,7 +350,7 @@ def eval_genomes(genomes, config):
         if len(birds) > 0:
             if len(pipes) > 1 and birds[0].x > pipes[0].x + pipes[0].PIPE_TOP.get_width():  # determine whether to use the first or second
                 pipe_ind = 1                                                                 # pipe on the screen for neural network input
-
+        
         for x, bird in enumerate(birds):  # give each bird a fitness of 0.1 for each frame it stays alive
             ge[x].fitness += 0.1
             bird.move()
@@ -426,11 +426,16 @@ def run(config_file):
     #p.add_reporter(neat.Checkpointer(5))
 
     # Run for up to 50 generations.
-    winner = p.run(eval_genomes, 5)
+    winner = p.run(eval_genomes, 50)
 
     # show final stats
     print('\nBest genome:\n{!s}'.format(winner))
-
+    
+    # Save the winner genome to a pickle .pkl file
+    #with open("winner.pkl", "wb") as f:
+    #    pickle.dump(winner, f)
+    #
+    #play_with_best_bird("winner.pkl", config)
 
 if __name__ == '__main__':
     # Determine path to configuration file. This path manipulation is
@@ -439,3 +444,4 @@ if __name__ == '__main__':
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config-feedforward.txt')
     run(config_path)
+    pygame.quit()
